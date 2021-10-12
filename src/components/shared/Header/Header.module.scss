@@ -1,0 +1,50 @@
+.header {
+    background-color: white;
+    width: 100vw;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.headerContent {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    height: 45px;
+    cursor: pointer;
+
+    > img {
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.rightContent {
+    display: flex;
+    align-items: center;
+}
+
+.addProduct {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.addProduct,
+.account {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f0f8ff;
+    color: #4b9ce2;
+    border-radius: 8px;
+    cursor: pointer;
+
+    > svg {
+        margin-right: 5px;
+    }
+}

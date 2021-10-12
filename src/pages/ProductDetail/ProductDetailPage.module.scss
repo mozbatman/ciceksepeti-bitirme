@@ -1,0 +1,85 @@
+.productDetail {
+  width: 80%;
+  margin: 20px auto;
+}
+
+.buttonGroup {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.buyModalBody {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.productInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #F0F8FF;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.info {
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+
+  > img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+}
+
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #525252;
+}
+
+.radioArea {
+  height: 45px;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  font-size: 15px;
+  color: #525252;
+}
+
+.checkedRadio {
+  border: 1px solid #4B9CE2;
+  color: #4B9CE2;
+  background-color: #F0F8FF;
+}
+
+.inputRadio {
+  width: 1.3em;
+    height: 1.3em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.inputRadio:checked {
+  background-color: #4B9CE2;
+}
+
+.inputRadio[type="radio"] {
+  -webkit-appearance: checkbox; 
+  -moz-appearance: checkbox;    
+  -ms-appearance: checkbox;
+}

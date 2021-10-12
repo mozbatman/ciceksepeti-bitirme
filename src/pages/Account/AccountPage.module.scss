@@ -1,0 +1,46 @@
+.accountPage {
+  width: 80%;
+  margin: 20px auto;
+  box-sizing: border-box;
+}
+
+.emailSection {
+  width: 100%;
+  border-radius: 8px;
+  background-color: white;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+
+  > img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+  }
+}
+
+.offerSection {
+  width: 100%;
+  border-radius: 8px;
+  background-color: white;
+  padding: 16px 24px;
+}
+
+.offerMenu {
+  width: 100%;
+  display: flex;
+  border-bottom: 1px solid #F2F2F2;
+  gap: 15px;
+}
+
+.menuItem {
+  color: #B1B1B1;
+  cursor: pointer;
+}
+
+.activeMenu {
+  color: #4B9CE2;
+  border-bottom: 1px solid#4B9CE2;
+}

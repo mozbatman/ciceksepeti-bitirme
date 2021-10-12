@@ -1,0 +1,188 @@
+.uploadProductPage {
+    width: 80%;
+    margin: 20px auto;
+    background-color: white;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+}
+
+.formContainer {
+    width: 100%;
+    display: flex;
+}
+
+.productName,
+.productDescription {
+    margin-bottom: 15px;
+}
+
+.productDetail {
+    width: 50%;
+    border-right: 1px solid #f4f4f4;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.textarea {
+    width: 100%;
+    border: none;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    padding: 5px;
+    margin-bottom: 15px;
+
+    &:focus {
+        border: none;
+        outline: none !important;
+    }
+}
+
+.categoryAndBrand,
+.colorAndStatus {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+
+    > div {
+        width: 100%;
+    }
+}
+
+.priceAndOfferStatus {
+    width: 40%;
+    gap: 10px;
+}
+
+.offerStatus {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.switch {
+    display: inline;
+    > input[type="checkbox"] {
+        height: 0;
+        width: 0;
+        visibility: hidden;
+    }
+
+    > label {
+        cursor: pointer;
+        text-indent: -9999px;
+        width: 44px;
+        height: 24px;
+        background: #ebebeb;
+        border-radius: 100px;
+        position: relative;
+    }
+
+    > label:after {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        width: 14px;
+        height: 14px;
+        background: #fff;
+        border-radius: 90px;
+        transition: 0.3s;
+    }
+
+    > input:checked + label {
+        background: #4b9ce2;
+    }
+
+    > input:checked + label:after {
+        left: calc(100% - 5px);
+        transform: translateX(-100%);
+    }
+
+    label:active:after {
+        width: 130px;
+    }
+}
+
+.form {
+  width: 100%;
+}
+
+.uploadImage {
+    width: 50%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.uploadContainer {
+    width: 100%;
+    margin: 20px auto;
+    padding: 20px 10px;
+    border: 1px dashed #b1b1b1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+
+    > p {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+}
+
+.uploadIcon {
+    > img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+}
+
+.size {
+  color: #B1B1B1;
+  font-size: 14px;
+}
+
+.selectImage {
+  padding: 7px 20px;
+  border-radius: 40px;
+  background-color: #F4F4F4;
+  color: #B1B1B1;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.fieldWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  > button {
+    width: 170px;
+  }
+}
+
+.acceptedFile {
+  position: relative;
+  display: inline-block;
+
+  > img {
+    width: 113px;
+    height: 113px;
+    object-fit: contain;
+    border: 1px solid #525252;
+    border-radius: 8px;
+  }
+}
+
+.removeIcon {
+  position: absolute;
+  top: -10px;
+  right: -5px;
+  background-color: white;
+}

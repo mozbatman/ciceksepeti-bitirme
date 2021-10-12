@@ -1,0 +1,54 @@
+.input {
+    width: 100%;
+    background-color: #f4f4f4;
+    height: 45px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.inputWrap {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    > input {
+        width: 100%;
+        background-color: #f4f4f4;
+        height: 45px;
+        border: none;
+        padding: 5px;
+
+        &:focus {
+            border: none;
+            outline: none !important;
+        }
+    }
+}
+
+.suffix {
+    font-size: 15px;
+    margin-right: 10px;
+    color: #99a0a7;
+}
+
+.select {
+    width: 100%;
+
+    > select {
+        height: 45px;
+        width: 100%;
+        border: 1px solid #f4f4f4;
+        background-color: #f4f4f4;
+        border-radius: 8px;
+
+        &:hover {
+            border: none !important;
+            outline: none !important;
+        }
+
+        &:focus {
+            border: none !important;
+            outline: none !important;
+        }
+    }
+}
