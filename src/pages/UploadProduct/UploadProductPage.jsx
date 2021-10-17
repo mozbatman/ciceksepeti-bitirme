@@ -1,20 +1,44 @@
 import { Formik } from "formik";
-import Dropzone from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 import Input from "../../components/form/Input/Input";
 import Button from "../../components/form/Button/Button";
-import uploadImage from "../../assets/images/upload2x.png";
+import upload_image from "../../assets/images/upload2x.png";
 import styles from "./UploadProductPage.module.scss";
 import { FaTimesCircle } from "react-icons/fa";
 import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createProduct, getAllBrand, getAllColor, getAllStatus, uploadImage } from "../../actions/ProductActions";
+import Schemas from "../../schemas";
+import { useEffect } from "react";
+import { getAllCategory } from "../../actions/CategoryActions";
+import { toastSuccess, toastError } from "../../components/shared/toast";
+import Loader from "../../components/shared/Loader/Loader";
 
 const PRICE_TYPE = "TL";
 
 const UploadProductPage = () => {
+    const dispatch = useDispatch();
+    const product = useSelector((state) => state.product);
+    const categories = useSelector((state) => state.category.categories);
+    const gettingCategories = useSelector((state) => state.category.getCategories);
     const [myFiles, setMyFiles] = useState([]);
+    const [uploadedFileUrl, setUploadedFileUrl] = useState();
+    let _setFieldValue;
+
+    useEffect(() => {
+        dispatch(getAllBrand());
+        dispatch(getAllColor());
+        dispatch(getAllStatus());
+        dispatch(getAllCategory());
+    }, []);
 
     const onDrop = useCallback(
         (acceptedFiles) => {
+            let data = new FormData();
+            data.append("file", acceptedFiles[0]);
+            dispatch(uploadImage(data)).then((res) => {
+                _setFieldValue("imageUrl", res.payload.data.url);
+            });
             setMyFiles([...myFiles, ...acceptedFiles]);
         },
         [myFiles]
@@ -22,33 +46,65 @@ const UploadProductPage = () => {
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
-        accept: "image/jpeg, image/png",
+        accept: "image/jpeg, image/jpg, image/png",
         maxFiles: 1,
-        maxSize: 102400,
+        maxSize: 409600,
     });
 
     const removeImage = () => {
+        _setFieldValue("imageUrl", '');
         setMyFiles([]);
+    };
+
+    const _createProduct = (e) => {
+        let payload = {
+            ...e,
+            category: categories.find(c => c.id === e.category),
+            brand: product.brands.find(b => b.id === e.brand),
+            color: product.colors.find(b => b.id === e.color),
+            status: product.statuses.find(b => b.id === e.status),
+        }
+
+        dispatch(createProduct(payload))
+            .then((res) => {
+                if (!res.error) {
+                    toastSuccess("Ürün başarıyla yüklendi");
+                }
+                else {
+                    toastError("Ürün yüklenirken bir hata oluştu");
+                }
+            });
+    };
+
+    const getTextareaClass = (error) => {
+        let classes = [styles.textarea];
+        if (error) classes.push(styles.textareaError);
+
+        return classes.join(" ");
     };
 
     return (
         <div className={styles.uploadProductPage}>
             <Formik
+                enableReinitialize={true}
                 initialValues={{
-                    name: "",
+                    title: "",
                     description: "",
-                    category: "",
-                    brand: "",
-                    color: "",
-                    status: "",
+                    category: (categories && categories[0].id) || "",
+                    brand: (product.brands && product.brands[0].id) || "",
+                    color: (product.colors && product.colors[0].id) || "",
+                    status: (product.statuses && product?.statuses[0].id) || "",
                     price: "",
-                    offerStatus: false,
+                    isOfferable: false,
+                    imageUrl: "",
                 }}
+                validationSchema={Schemas.createProductSchema}
                 onSubmit={(e) => {
-                    console.log(e);
+                    _createProduct(e);
                 }}
             >
                 {({ handleChange, handleSubmit, setFieldValue, values, touched, errors }) => {
+                    _setFieldValue = setFieldValue;
                     return (
                         <form
                             className={styles.form}
@@ -61,89 +117,115 @@ const UploadProductPage = () => {
                         >
                             <div className={styles.formContainer}>
                                 <div className={styles.productDetail}>
-                                    <h1>Ürün Detayları</h1>
+                                    <h1 className={styles.title}>Ürün Detayları</h1>
                                     <div className={styles.productName}>
-                                        <label>Ürün Adı</label>
+                                        <label className={styles.label}>Ürün Adı</label>
                                         <Input.Input
-                                            id="name"
-                                            name="name"
+                                            id="title"
+                                            name="title"
                                             type="text"
-                                            value={values.name}
+                                            value={values.title}
+                                            error={touched.title && errors.title}
                                             placeholder="Örnek: Iphone 12 Pro Max"
-                                            onChangeInput={handleChange("name")}
+                                            onChangeInput={handleChange("title")}
                                         />
+                                        <div className={styles.error}>{touched.title && errors.title}</div>
                                     </div>
                                     <div className={styles.productDescription}>
-                                        <label>Açıklama</label>
+                                        <label className={styles.label}>Açıklama</label>
                                         <textarea
                                             id="description"
                                             name="description"
                                             type="textArea"
                                             rows={4}
                                             value={values.description}
-                                            className={styles.textarea}
+                                            className={getTextareaClass(touched.description && errors.description)}
                                             placeholder="Ürün Açıklaması Girin"
                                             onChange={handleChange("description")}
                                         />
+                                        <div className={styles.error}>{touched.description && errors.description}</div>
                                     </div>
                                     <div className={styles.categoryAndBrand}>
                                         <div>
-                                            <label for="cars">Kategori</label>
+                                            <label className={styles.label} for="cars">
+                                                Kategori
+                                            </label>
                                             <Input.Select
-                                                datas={[1, 2, 3, 4, 5]}
+                                                datas={categories || []}
+                                                displayValue="title"
                                                 value={values.category}
-                                                onChange={handleChange("category")}
+                                                name="category"
+                                                onChange={handleChange}
                                             />
+                                            <div className={styles.error}>{touched.category && errors.category}</div>
                                         </div>
                                         <div>
-                                            <label for="cars">Marka</label>
+                                            <label className={styles.label} for="cars">
+                                                Marka
+                                            </label>
                                             <Input.Select
-                                                datas={[1, 2, 3, 4, 5]}
+                                                datas={product.brands || []}
                                                 value={values.brand}
-                                                onChange={handleChange("brand")}
+                                                displayValue="title"
+                                                name="brand"
+                                                onChange={handleChange}
                                             />
+                                            <div className={styles.error}>{touched.brand && errors.brand}</div>
                                         </div>
                                     </div>
                                     <div className={styles.colorAndStatus}>
                                         <div>
-                                            <label for="cars">Color</label>
+                                            <label className={styles.label} for="cars">
+                                                Color
+                                            </label>
                                             <Input.Select
-                                                datas={[1, 2, 3, 4, 5]}
+                                                datas={product.colors || []}
                                                 value={values.color}
-                                                onChange={handleChange("color")}
+                                                displayValue="title"
+                                                name="color"
+                                                onChange={handleChange}
                                             />
+                                            <div className={styles.error}>{touched.color && errors.color}</div>
                                         </div>
                                         <div>
-                                            <label for="cars">Kullanım Durumu</label>
+                                            <label className={styles.label} for="cars">
+                                                Kullanım Durumu
+                                            </label>
                                             <Input.Select
-                                                datas={[1, 2, 3, 4, 5]}
+                                                datas={product.statuses || []}
                                                 value={values.status}
-                                                onChange={handleChange("status")}
+                                                displayValue="title"
+                                                name="status"
+                                                onChange={handleChange}
                                             />
+                                            <div className={styles.error}>{touched.status && errors.status}</div>
                                         </div>
                                     </div>
                                     <div className={styles.priceAndOfferStatus}>
                                         <div>
-                                            <label>Fiyat</label>
+                                            <label className={styles.label}>Fiyat</label>
                                             <Input.Input
                                                 id="offer"
                                                 name="offer"
                                                 type="number"
                                                 placeholder="Bir Fiyat Girin"
                                                 value={values.price}
+                                                error={touched.price && errors.price}
                                                 suffix={<div>{PRICE_TYPE}</div>}
                                                 onChangeInput={handleChange("price")}
                                             />
+                                            <div className={styles.error}>{touched.price && errors.price}</div>
                                         </div>
                                         <div className={styles.offerStatus}>
-                                            <label>Teklif Opsiyonu</label>
+                                            <label className={styles.label}>Teklif Opsiyonu</label>
                                             <div className={styles.switch}>
                                                 {" "}
                                                 <input
                                                     type="checkbox"
                                                     id="switch"
+                                                    name="isOfferable"
                                                     value={values.offerStatus}
-                                                    onChange={handleChange("offerStatus")}
+                                                    onChange={handleChange("isOfferable")}
                                                 />
                                                 <label for="switch">Toggle</label>{" "}
                                             </div>
@@ -154,21 +236,25 @@ const UploadProductPage = () => {
                                 <div className={styles.uploadImage}>
                                     <div {...getRootProps({ className: "dropzone" })}>
                                         {" "}
-                                        <h1>Ürün Görseli</h1>
+                                        <h1 className={styles.title}>Ürün Görseli</h1>
                                         {myFiles.length === 1 ? (
-                                            <div className={styles.acceptedFile}>
-                                                <img src={URL.createObjectURL(myFiles[0])} alt="selected pic" />
-                                                <div className={styles.removeIcon} onClick={removeImage}>
-                                                    {" "}
-                                                    <FaTimesCircle />{" "}
+                                            !product.uploadImage ? (
+                                                <div className={styles.acceptedFile}>
+                                                    <img src={URL.createObjectURL(myFiles[0])} alt="selected pic" />
+                                                    <div className={styles.removeIcon} onClick={removeImage}>
+                                                        {" "}
+                                                        <FaTimesCircle />{" "}
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            ) : (
+                                                <div>Yukeniyorr</div>
+                                            )
                                         ) : (
                                             <>
                                                 <input {...getInputProps()} />
                                                 <div className={styles.uploadContainer}>
                                                     <div className={styles.uploadIcon}>
-                                                        <img src={uploadImage} />
+                                                        <img src={upload_image} />
                                                     </div>
                                                     <p>Sürükleyip Bırakarak Yükle</p>
                                                     <p>Veya</p>
@@ -179,6 +265,7 @@ const UploadProductPage = () => {
                                                 </div>
                                             </>
                                         )}
+                                        <div className={styles.error}>{touched.imageUrl && errors.imageUrl}</div>
                                     </div>
                                 </div>
                             </div>
@@ -194,8 +281,7 @@ const UploadProductPage = () => {
                     );
                 }}
             </Formik>
-
-            <div className={styles.productImage}></div>
+            {(gettingCategories || product.getBrand || product.getColor || product.getStatus) && <Loader />}
         </div>
     );
 };

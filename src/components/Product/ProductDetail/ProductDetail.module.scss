@@ -6,6 +6,13 @@
   border-radius: 8px;
   display: flex;
   padding: 15px;
+
+  @media only screen and (max-width: 600px) {
+    & {
+     flex-direction: column;
+     padding: 10px;
+    }
+ }
 }
 
 .image {
@@ -13,13 +20,27 @@
 
   > img {
     width: 100%;
+    border-radius: 8px;
     object-fit: cover;
   }
+
+  @media only screen and (max-width: 600px) {
+    & {
+     width: 100%;
+    }
+ }
 }
 
 .info {
   width: 55%;
   margin-left: 50px;
+
+  @media only screen and (max-width: 600px) {
+    & {
+     width: 100%;
+     margin-left: 10px;
+    }
+ }
 }
 
 .title {
@@ -54,7 +75,25 @@
   font-size: 25px;
   font-weight: bold;
   color: #525252;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
+}
+
+.offerGiven {
+  background-color: #F2F2F2;
+  padding: 10px 20px;
+  color: #525252;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  gap: 10px;
+  font-weight: bold;
+  margin-bottom: 30px;
+
+  > p {
+    font-size: 15px;
+    color: #B1B1B1;
+    margin-bottom: 0;
+  }
 }
 
 .notSale {
@@ -76,6 +115,18 @@
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 20px;
+
+  @media only screen and (max-width: 600px) {
+    & {
+     width: 100%;
+     padding: 10px 20px;
+     margin-bottom: 0;
+     position: fixed;
+     left: 0;
+     bottom: 0;
+     background-color: white;
+    }
+ }
 }
 
 .descTitle {
@@ -87,4 +138,10 @@
 .desc {
   font-size: 15px;
   color: #555555;
+
+  @media only screen and (max-width: 600px) {
+    & {
+     margin-bottom: 60px;
+    }
+ }
 }

@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { useCookies } from "react-cookie";
 import Modal from "react-bootstrap/Modal";
 import ProductDetail from "../../components/Product/ProductDetail/ProductDetail";
 import Button from "../../components/form/Button/Button";
 import { getProduct, purchaseProduct, offerProduct } from "../../actions/ProductActions";
+import { getGivenOffers, cancelOffer } from "../../actions/AccountActions";
 import Input from "../../components/form/Input/Input";
 import styles from "./ProductDetailPage.module.scss";
+import Loader from "../../components/shared/Loader/Loader";
+import BuyModal from "../../components/Product/BuyModal/BuyModal";
+import { toastError, toastSuccess } from "../../components/shared/toast";
 
 const MODAL_IMAGE_ALT = "ürün görseli";
 const PRICE_TYPE = "TL";
@@ -16,6 +21,9 @@ const ProductDetailPage = () => {
     const dispatch = useDispatch();
 
     const [product, setProduct] = useState();
+    const [cookies, setCookie] = useCookies(["authToken"]);
+    const gettingProduct = useSelector((state) => state.product.getProduct);
+    const givenOffers = useSelector((state) => state.account.givenOffers);
     const [openOfferModal, setOpenOfferModal] = useState(false);
     const [openBuyModal, setOpenBuyModal] = useState(false);
 
@@ -23,6 +31,11 @@ const ProductDetailPage = () => {
         dispatch(getProduct(params.id)).then((res) => {
             setProduct(res.payload.data);
         });
+
+        if (typeof cookies["authToken"] !== "undefined") {
+            dispatch(getGivenOffers());
+        }
+
     }, []);
 
     const _openOfferModal = () => setOpenOfferModal(true);
@@ -32,7 +45,18 @@ const ProductDetailPage = () => {
     const _closeBuyModal = () => setOpenBuyModal(false);
 
     const buyProduct = () => {
-        dispatch(purchaseProduct(product.id));
+        dispatch(purchaseProduct(product.id)).then((res) => {
+            if (!res.error) {
+                toastSuccess("Satın Alındı.");
+                dispatch(getProduct(params.id)).then((res) => {
+                    setProduct(res.payload.data);
+                });
+
+            } else {
+                toastError("Bir hata oluştu!");
+            }
+            _closeBuyModal();
+        });
     };
 
     const giveOfferProduct = (offerPrice) => {
@@ -40,13 +64,44 @@ const ProductDetailPage = () => {
             offeredPrice: offerPrice,
         };
 
-        dispatch(offerProduct(product.id, payload));
+        dispatch(offerProduct(product.id, payload)).then((res) => {
+            if (!res.error) {
+                toastSuccess("Teklif Yapıldı.");
+                dispatch(getProduct(params.id)).then((res) => {
+                    setProduct(res.payload.data);
+                });
+                dispatch(getGivenOffers());
+            } else {
+                toastError("Bir hata oluştu!");
+            }
+            _closeOfferModal();
+        });
+    };
+
+    const _cancelOffer = (offerId) => {
+        dispatch(cancelOffer(offerId)).then((res) => {
+            if (!res.error) {
+                toastSuccess("Teklif çekildi.");
+                dispatch(getProduct(params.id)).then((res) => {
+                    setProduct(res.payload.data);
+                });
+                dispatch(getGivenOffers());
+            } else {
+                toastError("Bir hata oluştu!");
+            }
+        });
     };
 
     return (
         <div className={styles.productDetail}>
             {product && (
-                <ProductDetail product={product} openBuyModal={_openBuyModal} openOfferModal={_openOfferModal} />
+                <ProductDetail
+                    product={product}
+                    openBuyModal={_openBuyModal}
+                    cancelOffer={_cancelOffer}
+                    givenOffers={givenOffers}
+                    openOfferModal={_openOfferModal}
+                />
             )}
             {openOfferModal && (
                 <GiveOfferModal
@@ -56,9 +111,9 @@ const ProductDetailPage = () => {
                     giveOffer={giveOfferProduct}
                 />
             )}
-            {openBuyModal && (
-                <BuyModal open={openBuyModal} closeModal={_closeBuyModal} product={product} buyProduct={buyProduct} />
-            )}
+            {openBuyModal && <BuyModal open={openBuyModal} closeModal={_closeBuyModal} buyProduct={buyProduct} />}
+
+            {gettingProduct && <Loader />}
         </div>
     );
 };
@@ -88,14 +143,14 @@ const GiveOfferModal = ({ open, closeModal, giveOffer, product }) => {
     };
 
     const _giveOffer = () => {
-      let price = 0;
-      if (parseInt(customOfferPrice) > 0) {
-        price = parseInt(customOfferPrice);
-      }else {
-        price = parseInt(product.price) * parseInt(checkRadio) / 100;
-      }
+        let price = 0;
+        if (parseInt(customOfferPrice) > 0) {
+            price = parseInt(customOfferPrice);
+        } else {
+            price = (parseInt(product.price) * parseInt(checkRadio)) / 100;
+        }
 
-      giveOffer(price);
+        giveOffer(price);
     };
 
     return (
@@ -146,29 +201,6 @@ const GiveOfferModal = ({ open, closeModal, giveOffer, product }) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button text="Teklif Ver" className="primary" type="button" onClick={_giveOffer} />
-            </Modal.Footer>
-        </Modal>
-    );
-};
-
-const BuyModal = ({ open, closeModal, buyProduct, product }) => {
-    const _buyProduct = () => {
-        buyProduct();
-    };
-
-    return (
-        <Modal show={open} onHide={closeModal} aria-labelledby="contained-modal-title-vcenter" centered>
-            <Modal.Header closeButton>
-                <Modal.Title>Satın Al</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <p className={styles.buyModalBody}>Satın almak istiyor musunuz?</p>
-            </Modal.Body>
-            <Modal.Footer>
-                <div className={styles.buttonGroup}>
-                    <Button text="İptal" className="secondary" type="button" onClick={closeModal} />
-                    <Button text="Satın al" className="primary" type="button" onClick={_buyProduct} />
-                </div>
             </Modal.Footer>
         </Modal>
     );

@@ -51,7 +51,7 @@ const accountReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getGivenOffers: false,
-                givenOffers: action.payload.data.access_token,
+                givenOffers: action.payload.data,
                 getGivenOffersError: null,
             };
         }
@@ -73,7 +73,7 @@ const accountReducer = (state = initialState, action) => {
             return {
                 ...state,
                 getReceivedOffers: false,
-                receivedOffers: action.payload.data.access_token,
+                receivedOffers: action.payload.data,
                 getReceivedOffersError: null,
             };
         }

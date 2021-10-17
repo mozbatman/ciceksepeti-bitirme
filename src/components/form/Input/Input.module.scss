@@ -6,6 +6,16 @@
     overflow: hidden;
 }
 
+.focus {
+    border: 1px solid #4B9CE2;
+    background-color: #F0F8FF !important;
+}
+
+.error {
+    border: 1px solid #F77474;
+    background-color: #FFF2F2 !important;
+}
+
 .inputWrap {
     width: 100%;
     display: flex;
@@ -13,7 +23,7 @@
 
     > input {
         width: 100%;
-        background-color: #f4f4f4;
+        background-color: inherit;
         height: 45px;
         border: none;
         padding: 5px;
@@ -33,22 +43,46 @@
 
 .select {
     width: 100%;
+    background-color: #f4f4f4;
 
     > select {
         height: 45px;
         width: 100%;
-        border: 1px solid #f4f4f4;
-        background-color: #f4f4f4;
+        background-color: inherit;
         border-radius: 8px;
+        border: inherit;
 
-        &:hover {
-            border: none !important;
+        &:hover, :active {
+            border: white !important;
+            border-color: white !important;
             outline: none !important;
         }
 
         &:focus {
-            border: none !important;
+            border-color: white !important;
+            outline: none !important;
+        }
+
+        &::-moz-focus-inner {
+            border-color: white !important;
+            outline: none !important;
+        }
+
+        &::after:hover {
+            border-color: white !important;
+            border: 0;
+            outline: none !important;
+        }
+
+        &[editable] > button:hover {
+            stroke: white !important;
+            border-color: white !important;
             outline: none !important;
         }
     }
+}
+
+.selectFocus {
+    background-color: white;
+    box-shadow: 0px 3px 12px #1E36482E;
 }

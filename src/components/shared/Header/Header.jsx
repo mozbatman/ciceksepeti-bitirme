@@ -21,7 +21,7 @@ const Header = () => {
                         <>
                             <div className={styles.addProduct} onClick={() => history.push('/upload-product')}>
                                 {" "}
-                                <FaPlus /> Ürün Ekle
+                                <FaPlus /> <div className={styles.addProductButton}> Ürün Ekle </div>
                             </div>
                             <div className={styles.account} onClick={() => history.push('/account')}>
                                 {" "}

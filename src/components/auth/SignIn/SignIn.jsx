@@ -4,7 +4,6 @@ import Input from "../../form/Input/Input";
 import styles from "./SignIn.module.scss";
 import logo from "../../../assets/logo/logo.svg";
 import Button from "../../form/Button/Button";
-import { Link } from "react-router-dom";
 
 const LOGO_ALT = "logo";
 
@@ -22,7 +21,7 @@ const SignIn = ({ signIn, changeStatus }) => {
                 <Formik
                     initialValues={{ email: "", password: "" }}
                     validationSchema={Schemas.loginSchema}
-                    onSubmit={(e) => onSubmitHandler(e)}
+                    onSubmit={(e) => { onSubmitHandler(e)}}
                 >
                     {({ handleChange, handleSubmit, setFieldValue, values, touched, errors }) => {
                         return (
@@ -30,6 +29,7 @@ const SignIn = ({ signIn, changeStatus }) => {
                                 onSubmit={handleSubmit}
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter") {
+                                        e.preventDefault();
                                         handleSubmit();
                                     }
                                 }}
@@ -43,6 +43,7 @@ const SignIn = ({ signIn, changeStatus }) => {
                                             id="email"
                                             name="email"
                                             type="text"
+                                            error={touched.email && errors.email}
                                             placeholder="Email@example.com"
                                             onChangeInput={handleChange("email")}
                                         />
@@ -55,6 +56,7 @@ const SignIn = ({ signIn, changeStatus }) => {
                                             name="password"
                                             type="password"
                                             placeholder="Password"
+                                            error={touched.password && errors.password}
                                             onChangeInput={handleChange("password")}
                                         />
                                     </div>
@@ -64,6 +66,7 @@ const SignIn = ({ signIn, changeStatus }) => {
                                             (errors.password ||
                                                 (false ? "Email veya parolanızı hatalı girdiniz.." : null))}{" "}
                                     </div>
+                                    <div className={styles.lostPassword}>Şifremi Unuttum</div>
                                     <div className={styles.fieldWrapper}>
                                         <Button
                                             text="Giriş"
@@ -72,8 +75,8 @@ const SignIn = ({ signIn, changeStatus }) => {
                                             onClick={() => handleSubmit()}
                                         />
                                     </div>
-                                    <div>
-                                        Hesabın yok mu? <div onClick={() => changeStatus(false)}>Üye Ol</div>
+                                    <div className={styles.noAccount}>
+                                        Hesabın yok mu? <div className={styles.signUp} onClick={() => changeStatus(false)}>Üye Ol</div>
                                     </div>
                                 </div>
                             </form>

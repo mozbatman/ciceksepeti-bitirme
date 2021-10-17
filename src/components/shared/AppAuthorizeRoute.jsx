@@ -1,9 +1,6 @@
 import { Route, Redirect } from "react-router";
 import { createRef, useEffect, useState } from "react";
-
-import auth from "../../helpers/auth";
 import { useCookies } from "react-cookie";
-import { useSelector } from "react-redux";
 
 const AppRoute = ({ component: Component, layout: Layout, path: Path, layoutProps: LayoutProps, ...rest }) => {
     const layoutRef = createRef();
@@ -16,7 +13,7 @@ const AppRoute = ({ component: Component, layout: Layout, path: Path, layoutProp
       if (typeof(cookies["authToken"]) !== "undefined") {
         setIsAuthenticated(true);
       }
-    })
+    }, [])
     
     return <Route {...rest} render={props =>
                 true ?

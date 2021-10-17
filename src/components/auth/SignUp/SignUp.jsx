@@ -4,7 +4,6 @@ import Input from "../../form/Input/Input";
 import styles from "./SignUp.module.scss";
 import logo from "../../../assets/logo/logo.svg";
 import Button from "../../form/Button/Button";
-import { Link } from "react-router-dom";
 
 const LOGO_ALT = "logo";
 
@@ -43,6 +42,7 @@ const SignUp = ({ signUp, changeStatus }) => {
                                             id="email"
                                             name="email"
                                             type="text"
+                                            error={touched.email && errors.email}
                                             placeholder="Email@example.com"
                                             onChangeInput={handleChange("email")}
                                         />
@@ -55,6 +55,7 @@ const SignUp = ({ signUp, changeStatus }) => {
                                             name="password"
                                             type="password"
                                             placeholder="Password"
+                                            error={touched.password && errors.password}
                                             onChangeInput={handleChange("password")}
                                         />
                                     </div>
@@ -72,8 +73,8 @@ const SignUp = ({ signUp, changeStatus }) => {
                                             onClick={() => handleSubmit()}
                                         />
                                     </div>
-                                    <div>
-                                        Hesabın var mı? <div onClick={() => changeStatus(true)}>Giriş Yap</div>
+                                    <div className={styles.haveAccount}>
+                                        Hesabın var mı? <div className={styles.signIn} onClick={() => changeStatus(true)}>Giriş Yap</div>
                                     </div>
                                 </div>
                             </form>

@@ -2,14 +2,28 @@
     width: 80%;
     margin: 20px auto;
     background-color: white;
+    border-radius: 8px;
     padding: 15px;
     box-sizing: border-box;
     display: flex;
+
+    @media only screen and (max-width: 768px) {
+        & {
+            width: 98%;
+        }
+    }
 }
 
 .formContainer {
     width: 100%;
     display: flex;
+
+    @media only screen and (max-width: 600px) {
+        & {
+            width: 98%;
+            flex-direction: column;
+        }
+    }
 }
 
 .productName,
@@ -22,6 +36,28 @@
     border-right: 1px solid #f4f4f4;
     padding: 20px;
     box-sizing: border-box;
+
+    @media only screen and (max-width: 768px) {
+        & {
+            width: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        & {
+            border-right: none;
+        }
+    }
+}
+
+.title {
+    font-size: 25px;
+    color: #525252;
+}
+
+.label {
+    font-size: 15px;
+    color: #525252;
 }
 
 .textarea {
@@ -109,13 +145,19 @@
 }
 
 .form {
-  width: 100%;
+    width: 100%;
 }
 
 .uploadImage {
     width: 50%;
     padding: 20px;
     box-sizing: border-box;
+
+    @media only screen and (max-width: 768px) {
+        & {
+            width: 100%;
+        }
+    }
 }
 
 .uploadContainer {
@@ -130,8 +172,8 @@
     cursor: pointer;
 
     > p {
-      font-size: 14px;
-      margin-bottom: 5px;
+        font-size: 14px;
+        margin-bottom: 5px;
     }
 }
 
@@ -144,45 +186,55 @@
 }
 
 .size {
-  color: #B1B1B1;
-  font-size: 14px;
+    color: #b1b1b1;
+    font-size: 14px;
 }
 
 .selectImage {
-  padding: 7px 20px;
-  border-radius: 40px;
-  background-color: #F4F4F4;
-  color: #B1B1B1;
-  font-size: 15px;
-  margin-bottom: 10px;
+    padding: 7px 20px;
+    border-radius: 40px;
+    background-color: #f4f4f4;
+    color: #b1b1b1;
+    font-size: 15px;
+    margin-bottom: 10px;
 }
 
 .fieldWrapper {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 
-  > button {
-    width: 170px;
-  }
+    > button {
+        width: 170px;
+    }
 }
 
 .acceptedFile {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 
-  > img {
-    width: 113px;
-    height: 113px;
-    object-fit: contain;
-    border: 1px solid #525252;
-    border-radius: 8px;
-  }
+    > img {
+        width: 113px;
+        height: 113px;
+        object-fit: contain;
+        border: 1px solid #525252;
+        border-radius: 8px;
+    }
 }
 
 .removeIcon {
-  position: absolute;
-  top: -10px;
-  right: -5px;
-  background-color: white;
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    background-color: white;
+}
+
+.error {
+    width: 100%;
+    color: #f77474;
+}
+
+.textareaError {
+    border: 1px solid #f77474;
+    background-color: #fff2f2 !important;
 }

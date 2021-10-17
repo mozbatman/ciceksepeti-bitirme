@@ -1,48 +1,76 @@
 .signUp {
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    @media only screen and (max-width: 1200px) {
+        width: 100%;
+    }
 }
 
 .logo {
-  margin-bottom: 50px;
+    margin-bottom: 50px;
 }
 
 .form {
-  background-color: white;
-  border-radius: 8px;
-  padding: 70px 100px;
-  max-width: 569px;
-  border: #1E3648;
+    background-color: white;
+    border-radius: 8px;
+    padding: 70px 100px;
+    width: 569px;
+    border: #1e3648;
+
+    @media only screen and (max-width: 600px) {
+        & {
+            width: 97%;
+            padding: 30px 50px;
+        }
+    }
 }
 
 .formContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .formHeader {
-  font-size: 32px;
-  font-weight: bold;
-  color: #525252;
-  margin-bottom: 10px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #525252;
+    margin-bottom: 10px;
 }
 
 .formSubTitle {
-  font-size: 15px;
-  color: #525252;
-  margin-bottom: 50px;
+    font-size: 15px;
+    color: #525252;
+    margin-bottom: 50px;
 }
 
 .fieldWrapper {
-  width: 100%;
-  margin-bottom: 12px;
+    width: 100%;
+    margin-bottom: 12px;
 }
 
 .label {
-  font-size: 15px;
-  color: #525252;
+    font-size: 15px;
+    color: #525252;
+}
+
+.haveAccount {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.signIn {
+    display: flex;
+    color: #4b9ce2;
+    cursor: pointer;
+}
+
+.error {
+    width: 100%;
+    color: #f77474;
 }

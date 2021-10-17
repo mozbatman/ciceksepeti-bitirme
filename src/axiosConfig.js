@@ -10,16 +10,16 @@ const client = axios.create({
 client.interceptors.response.use(
     (response) => {
         if (response?.data?.access_token) {
+            console.log(response.config.reduxSourceAction.payload.request.data);
             auth.setAuthToken(response.data.access_token);
             client.defaults.headers.common['Authorization'] = "Bearer " + response.data.access_token;
-            console.log(client.defaults.headers);
+            document.cookie = 'email=' + response.config.reduxSourceAction.payload.request.data.email;
         }
         return response;
     },
     async function (error) {
-        console.log('Hataya girdi')
         const orginalRequest = error.config;
-        if ((error.response.status === 401 || error.response.status === 403) && !orginalRequest._retry) {
+        if (error.config.reduxSourceAction.type !== 'SIGN_IN' && (error.response.status === 401 || error.response.status === 403) && !orginalRequest._retry) {
             auth.removeAuthToken();
             window.location.href = "/auth";
             orginalRequest._retry = true;

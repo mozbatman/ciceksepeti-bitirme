@@ -1,6 +1,6 @@
 .header {
     background-color: white;
-    width: 100vw;
+    width: 100%;
     height: 70px;
     display: flex;
     align-items: center;
@@ -12,6 +12,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media only screen and (max-width: 600px) {
+        & {
+            width: 98%;
+        }
+    }
 }
 
 .logo {
@@ -39,6 +45,7 @@
     display: flex;
     align-items: center;
     padding: 10px 20px;
+    height: 40px;
     background-color: #f0f8ff;
     color: #4b9ce2;
     border-radius: 8px;
@@ -46,5 +53,13 @@
 
     > svg {
         margin-right: 5px;
+    }
+}
+
+.addProductButton {
+    @media only screen and (max-width: 600px) {
+        & {
+            display: none;
+        }
     }
 }

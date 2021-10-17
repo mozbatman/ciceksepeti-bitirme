@@ -4,6 +4,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
 }
 
 .logo {
@@ -14,8 +18,15 @@
   background-color: white;
   border-radius: 8px;
   padding: 70px 100px;
-  max-width: 569px;
+  width: 569px;
   border: #1E3648;
+
+  @media only screen and (max-width: 600px) {
+     & {
+      width: 97%;
+      padding: 30px 50px;
+     }
+  }
 }
 
 .formContainer {
@@ -45,4 +56,29 @@
 .label {
   font-size: 15px;
   color: #525252;
+}
+
+.noAccount {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.signUp {
+  display: flex;
+  color: #4B9CE2;
+  cursor: pointer;
+}
+
+.error {
+  width: 100%;
+  color: #F77474;
+}
+
+.lostPassword {
+  width: 100%;
+  text-align: end;
+  color: #B1B1B1;
+  margin-bottom: 30px;
+  cursor: pointer;
 }

@@ -2,6 +2,12 @@
   width: 80%;
   margin: 20px auto;
   box-sizing: border-box;
+
+  @media only screen and (max-width: 768px) {
+    & {
+      width: 98%;
+    }
+ }
 }
 
 .emailSection {
@@ -43,4 +49,10 @@
 .activeMenu {
   color: #4B9CE2;
   border-bottom: 1px solid#4B9CE2;
+}
+
+.noOffer {
+  width: 100%;
+  text-align: center;
+  padding: 30px;
 }

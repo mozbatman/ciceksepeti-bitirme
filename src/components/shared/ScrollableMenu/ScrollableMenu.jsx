@@ -1,42 +1,34 @@
-import React from "react";
-import { ScrollMenu } from "react-horizontal-scrolling-menu";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import styles from "./ScrollableMenu.module.scss";
 
-const getItems = () =>
-    Array(20)
-        .fill(0)
-        .map((_, ind) => ({ id: `element-${ind}` }));
+const getMenuItemClass = (selected) => {
+    let classes = [styles.menuItem];
+    if (selected) classes.push(styles.active);
+    return classes.join(" ");
+};
 
-const ScrollableMenu = () => {
-    const [items, setItems] = React.useState(getItems);
-    const [selected, setSelected] = React.useState([]);
-    const [position, setPosition] = React.useState(0);
+const MenuItem = ({ text, id, selected, setSelected, changeSeachParams }) => {
+    return <div className={getMenuItemClass(selected)} onClick={() => {setSelected(id); changeSeachParams(id)}} >{text}</div>;
+};
 
-    const isItemSelected = (id) => !!selected.find((el) => el === id);
+const ScrollableMenu = ({ changeSeachParams }) => {
+    const categories = useSelector((state) => state.category.categories);
+    const [items, setItems] = React.useState([{ id: 0, title: "Hepsi" }]);
+    const [selected, setSelected] = React.useState(items[0].id);
 
-    const handleClick =
-        (id) =>
-        ({ getItemById, scrollToItem }) => {
-            const itemSelected = isItemSelected(id);
-
-            setSelected((currentSelected) =>
-                itemSelected ? currentSelected.filter((el) => el !== id) : currentSelected.concat(id)
-            );
-        };
-
-    const onUpdate = (position) => {
-      console.log(position)
-      setPosition(position)
-    }
+    useEffect(() => {
+        if (categories?.length) setItems([{ id: 0, title: "Hepsi" }, ...categories]);
+    }, [categories])
 
     return (
-        <ScrollMenu alignCenter={true} dragging={true} onUpdate={setPosition} translate={position}>
-            {items.map(({ id }) => (
-                <div className={styles.menuItem} itemId={id} key={id} selected={isItemSelected(id)}>
-                    {id}
-                </div>
-            ))}
-        </ScrollMenu>
+        <div className={styles.menu}>
+            {items?.map((el) => {
+                const { id, title } = el;
+
+                return <MenuItem text={title} key={id} id={id} selected={selected === id} setSelected={setSelected} changeSeachParams={changeSeachParams} />;
+            })}
+        </div>
     );
 };
 

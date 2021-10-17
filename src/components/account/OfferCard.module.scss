@@ -1,0 +1,86 @@
+.offerCard {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+  border: 1px solid #F2F2F2;
+  border-radius: 8px;
+  padding: 5px;
+  box-sizing: border-box;
+
+  @media only screen and (max-width: 600px) {
+    & {
+     display: block;
+    }
+ }
+}
+
+.offerInfoContainer {
+  display: flex;
+}
+
+.image {
+  margin-right: 10px;
+  > img {
+    width: 78px;
+    height: 84px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+}
+
+.offerInfo {
+
+}
+
+.title {
+  font-size: 18px;
+  color: #555555;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  color: #B1B1B1;
+  font-size: 15px;
+  background-color: #F2F2F2;
+  border-radius: 8px;
+  padding: 5px 10px;
+
+  > div {
+    color: #525252;
+    margin-left: 5px;
+  }
+}
+
+.buttonOrStatus {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  @media only screen and (max-width: 600px) {
+    & {
+      width: 80%;
+      justify-self: flex-end;
+      justify-content: flex-end;
+      margin-left: 20%;
+      height: 40px;
+    }
+ }
+}
+
+.accepted {
+  font-size: 15px;
+  color: #4B9CE2;
+}
+
+.rejected {
+  font-size: 15px;
+  color: #F77474;
+}
+
+.waiting {
+  font-size: 15px;
+  color: #FAAD60;
+}
