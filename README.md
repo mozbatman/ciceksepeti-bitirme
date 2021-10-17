@@ -2,6 +2,8 @@
 
 Built with React, Redux, Redux-thunk, Redux-axios-middleware and CSS. It is a second hand application according to the designs given.
 
+![React, Redux, Router, Webpack, Sass](https://cloud.githubusercontent.com/assets/733074/25338311/193a1a40-28ff-11e7-8f22-9a5d9dac7b84.png)
+
 ## Project Status
 (only necessary if incomplete)
 
