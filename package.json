@@ -1,6 +1,5 @@
 {
   "name": "ciceksepeti-bitirme",
-  "proxy": "http://bootcampapi.techcs.io/api/fe/v1",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
