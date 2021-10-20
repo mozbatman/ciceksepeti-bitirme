@@ -2,7 +2,7 @@ import axios from "axios";
 import auth from './helpers/auth';
 
 const client = axios.create({
-    baseURL: "http://bootcampapi.techcs.io/api/fe/v1",
+    baseURL: "https://bootcampapi.techcs.io/api/fe/v1",
     responseType: "application/json",
     headers: { "Access-Control-Allow-Origin": "*" },
 });
