@@ -31,3 +31,13 @@ To Visit App:
 
 `localhost:3000/`  
 
+## Performance Results
+
+#### https://developers.google.com/speed/pagespeed
+![Screenshot_11](https://user-images.githubusercontent.com/49883994/139535628-dd2fd562-7abb-4d81-b8c0-78367bdefea9.png)
+#### LightHouse
+![Screenshot_13](https://user-images.githubusercontent.com/49883994/139535631-91822f4a-66a1-4f32-88fb-5f542be0cbc6.png)
+
+
+
+
